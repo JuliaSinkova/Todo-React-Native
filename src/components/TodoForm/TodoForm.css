@@ -1,0 +1,26 @@
+.TodoForm__input {
+  width: 50%;
+  display: inline-block;
+  margin: 10px auto;
+  height: 40px;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 4px 4px 19px -2px rgba(34, 60, 80, 0.2);
+  padding: 10px;
+}
+.TodoForm__btn {
+  height: 45px;
+  width: 100px;
+  border: none;
+  border-radius: 20px;
+  background-color: #ca55be;
+  box-shadow: 4px 4px 19px -2px rgba(34, 60, 80, 0.2);
+  margin-left: 20px;
+  color: #fff;
+  font-size: 16px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.TodoForm__btn:hover {
+  background-color: #318686;
+}

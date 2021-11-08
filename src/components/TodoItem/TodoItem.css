@@ -1,0 +1,56 @@
+#finished {
+  text-decoration: line-through;
+  color: #777;
+}
+.TodoItem {
+  border-radius: 20px;
+  box-shadow: 4px 4px 19px -2px rgba(34, 60, 80, 0.2);
+  display: grid;
+  grid-template-columns: 1fr 50px 50px 50px;
+  background-color: #fff;
+  padding: 5px;
+  margin: 10px 0;
+}
+.TodoItem__text {
+  border: none;
+  padding: 10px;
+  width: 500px;
+}
+.TodoItem__text:focus {
+  border: none;
+  padding: 10px;
+  outline: none;
+}
+.TodoItem__text::placeholder {
+  color: #000;
+  font-size: 16px;
+  width: 80%;
+}
+.TodoItem__time {
+  font-size: 10px;
+  color: #777;
+}
+
+.TodoItem__btn {
+  height: 45px;
+  border: none;
+
+  background-color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+}
+.TodoItem__btn_finish {
+  color: green;
+}
+.TodoItem__btn_edit {
+  color: gray;
+}
+.TodoItem__btn_edit:hover {
+  color: darkgray;
+}
+.TodoItem__btn_delete {
+  color: red;
+}
+.TodoItem__btn_delete:hover {
+  color: red;
+}
