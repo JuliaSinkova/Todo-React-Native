@@ -1,4 +1,5 @@
 export const ADD_TASK = "ADD_TASK";
+export const ADD_TASK_SUCCESS = "ADD_TASK_SUCCESS ";
 export const DELETE_TASK = "DELETE_TASK";
 export const OPEN_MODAL = "OPEN_MODAL";
 export const CLOSE_MODAL = "CLOSE_MODAL";

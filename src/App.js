@@ -1,12 +1,15 @@
+import React from "react";
+import { Provider } from "react-redux";
 import Todo from "./components/Todo/Todo";
-import "./App.css";
+import { store } from "./store/strore";
+import { NativeBaseProvider } from "native-base";
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <Todo />
-    </div>
+    <Provider store={store}>
+      <Todo></Todo>
+    </Provider>
   );
-}
+};
 
 export default App;

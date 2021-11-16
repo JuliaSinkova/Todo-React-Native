@@ -1,31 +1,52 @@
-import { useEffect } from "react";
+import { FlatList } from "react-native-web";
 import { useSelector } from "react-redux";
-import Modal from "../Modal/Modal";
-
+import styled from "styled-components/native";
+import { View } from "react-native";
+import { useState } from "react";
 import TodoForm from "../TodoForm/TodoForm";
 import TodoItem from "../TodoItem/TodoItem";
-import "./Todo.css";
 
 function TodoList() {
+  const TodoStyled = styled.View`
+    position: relative;
+    max-width: 1000px;
+    margin: 0px auto;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    margin-top: 100px;
+    font-family: sans-serif;
+  `;
+  const Title = styled.Text`
+    margin-bottom: 50px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #555;
+    font-size: 36px;
+  `;
+
   const tasks = useSelector((state) => state.task);
 
+  const renderItem = ({ item }) => (
+    <TodoItem
+      id={item.id}
+      text={item.text}
+      time={item.time}
+      finished={item.finished}
+    />
+  );
   return (
-    <div className="Todo">
-      <Modal />
-      <h1 className="Todo__header">MY Todo List 📝</h1>
+    <TodoStyled>
+      <Title>MY Todo List 📝</Title>
       <TodoForm />
-      {tasks.map((item) => {
-        return (
-          <TodoItem
-            id={item.id}
-            key={Math.random()}
-            text={item.text}
-            time={item.time}
-            finished={item.finished}
-          />
-        );
-      })}
-    </div>
+      <View>
+        <FlatList
+          data={tasks}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.id}
+        ></FlatList>
+      </View>
+    </TodoStyled>
   );
 }
 

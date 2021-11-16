@@ -1,15 +1,8 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import "./index.css";
+import { AppRegistry } from "react-native";
 import App from "./App";
-import { store } from "./store/strore";
 
-ReactDOM.render(
-  <Provider store={store}>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </Provider>,
-  document.getElementById("root")
-);
+AppRegistry.registerComponent("App", () => App);
+
+AppRegistry.runApplication("App", {
+  rootTag: document.getElementById("root"),
+});

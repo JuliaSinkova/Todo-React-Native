@@ -1,67 +1,115 @@
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { TextInput } from "react-native";
 import { deleteTaskAction } from "../../actions/deleteTaskAction";
 import { finishTaskAction } from "../../actions/finishTaskAction";
-import { modalAction } from "../../actions/modalAction";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
-import "./TodoItem.css";
+import styled, { ThemeProvider } from "styled-components/native";
 import { useState } from "react";
-import { saveTaskAction } from "../../actions/saveTaskAction";
+import { editTaskAction } from "../../actions/editTaskAction";
 
 function TodoItem({ text, id, time, finished }) {
+  const Btn = styled.TouchableOpacity`
+    border: none;
+    background-color: #fff;
+    text-align: center;
+    padding-top: 15px;
+    opacity: ${(props) => props.theme.main}
+    cursor: pointer;
+  `;
+  const Item = styled.View`
+    border-radius: 20px;
+    border: 1px solid #eee;
+    display: grid;
+    grid-template-columns: 1fr 20px 90px 50px 50px;
+    background-color: #fff;
+    padding: 5px;
+    margin: 10px 0;
+  `;
+  const Time = styled.Text`
+    display: block;
+    font-size: 10px;
+    color: #777;
+  `;
+  const Text = styled.Text`
+    border: none;
+    padding: 10px;
+    width: 500px;
+  `;
+  const TextDisplay = styled.TextInput`
+    max-width: 400px;
+    width: 100%;
+    height: 100%;
+  `;
+
+  const [editable, setEditable] = useState(false);
+  const [theme, setTheme] = useState({ main: "0" });
+  const [newText, onChangeText] = useState(text);
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.task);
-  const deleteTask = function (e) {
-    let filtered = tasks.filter((item) => item.id != e.target.parentNode.id);
+  const deleteTask = function (id) {
+    let filtered = tasks.filter((item) => item.id != id);
     dispatch(deleteTaskAction(filtered));
   };
 
-  const editTask = function (e) {
-    dispatch(modalAction("overlay__active", "modal__active"));
-    let item = tasks.filter((item) => item.id == e.target.parentNode.id);
-    dispatch(saveTaskAction(item));
+  const editTask = function (id) {
+    setEditable(true);
+    setTheme({ main: "100" });
+    let item = tasks.filter((item) => item.id == id);
+  };
+
+  const saveTask = function (id) {
+    let filtered = tasks.filter((item) => item.id != id);
+    let item = tasks.filter((item) => item.id == id);
+    item[0].text = newText;
+    filtered.push(item[0]);
+    dispatch(editTaskAction(filtered));
+    setEditable(false);
+    setTheme({ main: "0" });
   };
 
   const finishTask = function (e) {
-    let item = tasks.filter((item) => item.id == e.target.parentNode.id);
+    let item = tasks.filter((item) => item.id == id);
     item[0].finished = "finished";
     console.log(item);
-    let filtered = tasks.filter((item) => item.id != e.target.parentNode.id);
+    let filtered = tasks.filter((item) => item.id != id);
+    filtered.push(item[0]);
+    console.log(filtered);
+    dispatch(finishTaskAction(filtered));
+  };
+  const returnTask = function (e) {
+    let item = tasks.filter((item) => item.id == id);
+    item[0].finished = false;
+    console.log(item);
+    let filtered = tasks.filter((item) => item.id != id);
     filtered.push(item[0]);
     console.log(filtered);
     dispatch(finishTaskAction(filtered));
   };
 
   return (
-    <div className="TodoItem" id={id}>
-      <div className="TodoItem__text" id={finished}>
-        {text}
-        <div className="TodoItem__time">
-          {new Date(time).toLocaleDateString()}{" "}
-          {new Date(time).toLocaleTimeString()}
-        </div>
-      </div>
-      <button
-        onClick={(e) => finishTask(e)}
-        className="TodoItem__btn TodoItem__btn_finish"
-      >
-        ✅
-      </button>
-      <button
-        onClick={(e) => editTask(e)}
-        className="TodoItem__btn TodoItem__btn_edit"
-      >
-        ✏️
-      </button>
-      <button
-        onClick={(e) => deleteTask(e)}
-        className="TodoItem__btn TodoItem__btn_delete"
-      >
-        🗑
-      </button>
-    </div>
+    <Item id={id}>
+      <Text id={finished}>
+        <TextDisplay
+          onChangeText={(t) => onChangeText(t)}
+          autoFocus={editable}
+          editable={editable}
+          placeholder={newText}
+          value={newText}
+        ></TextDisplay>
+        <Time>{new Date(time).toLocaleDateString()}</Time>
+      </Text>
+      <ThemeProvider theme={theme}>
+        <Btn onPress={() => saveTask(id)}>💾</Btn>
+      </ThemeProvider>
+      {finished ? (
+        <Btn onPress={() => returnTask(id)}>Done ✅</Btn>
+      ) : (
+        <Btn onPress={() => finishTask(id)}> Finish </Btn>
+      )}
+      <Btn onPress={() => editTask(id)}>✏️</Btn>
+
+      <Btn onPress={() => deleteTask(id)}>🗑</Btn>
+    </Item>
   );
 }
 
