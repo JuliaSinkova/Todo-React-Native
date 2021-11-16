@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { TextInput } from "react-native";
+import moment from "moment";
 import { deleteTaskAction } from "../../actions/deleteTaskAction";
 import { finishTaskAction } from "../../actions/finishTaskAction";
 import styled, { ThemeProvider } from "styled-components/native";
@@ -11,8 +11,9 @@ function TodoItem({ text, id, time, finished }) {
   const Btn = styled.TouchableOpacity`
     border: none;
     background-color: #fff;
-    text-align: center;
+    text-align: right;
     padding-top: 15px;
+    padding-right: 2px;
     opacity: ${(props) => props.theme.main}
     cursor: pointer;
   `;
@@ -39,6 +40,7 @@ function TodoItem({ text, id, time, finished }) {
     max-width: 400px;
     width: 100%;
     height: 100%;
+    padding: 10px 2px;
   `;
 
   const [editable, setEditable] = useState(false);
@@ -96,7 +98,7 @@ function TodoItem({ text, id, time, finished }) {
           placeholder={newText}
           value={newText}
         ></TextDisplay>
-        <Time>{new Date(time).toLocaleDateString()}</Time>
+        <Time>{moment(time).format("lll")}</Time>
       </Text>
       <ThemeProvider theme={theme}>
         <Btn onPress={() => saveTask(id)}>💾</Btn>
@@ -104,7 +106,7 @@ function TodoItem({ text, id, time, finished }) {
       {finished ? (
         <Btn onPress={() => returnTask(id)}>Done ✅</Btn>
       ) : (
-        <Btn onPress={() => finishTask(id)}> Finish </Btn>
+        <Btn onPress={() => finishTask(id)}> Finish 🟩 </Btn>
       )}
       <Btn onPress={() => editTask(id)}>✏️</Btn>
 

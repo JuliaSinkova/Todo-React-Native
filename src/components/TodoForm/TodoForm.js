@@ -40,10 +40,10 @@ function TodoForm() {
   const tasks = useSelector((state) => state.task);
 
   const add = function () {
-    if (text == "") {
+    if (text.trim() == "") {
       alert("You cannot add an empty task");
     }
-    if (text != "") {
+    if (text.trim() != "") {
       let filtered = tasks.filter((item) => item.text == text);
       if (filtered.length > 0) {
         alert("The task already exists, try something else");
